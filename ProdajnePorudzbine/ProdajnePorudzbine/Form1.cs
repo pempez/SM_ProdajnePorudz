@@ -21,10 +21,17 @@ namespace ProdajnePorudzbine
             popuniNalog(0);
             popuniKupac();
             popuniType();
+          
         }
 
         private void btnPronadji_Click(object sender, EventArgs e)
         {
+            if(cbType.Text=="")
+            {
+                MessageBox.Show("morate odabrati Vrstu naloga!");
+                cbType.Focus();
+                return;
+            }
             DateTime datumOd = new DateTime(dtpDatum.Value.Year, dtpDatum.Value.Month, dtpDatum.Value.Day);
             DateTime datumDo = new DateTime(dtpDatumDo.Value.Year, dtpDatumDo.Value.Month, dtpDatumDo.Value.Day);
 
@@ -67,6 +74,8 @@ namespace ProdajnePorudzbine
                 dgvSalesHeader.DataSource = dt;
                 dgvSalesHeader.Columns["Kupac"].Visible = false;
                 dgvSalesHeader.Columns["Vrednost porudzbine"].DefaultCellStyle.Format = "N2";
+                dgvSalesHeader.Columns["Vrednost porudzbine"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvSalesHeader_Click(null, null);
                 ukupno();
             }
             else
@@ -86,9 +95,9 @@ namespace ProdajnePorudzbine
                 else domaci += double.Parse(r.Cells["Vrednost porudzbine"].Value.ToString());
             }
 
-            lblD.Text = domaci.ToString();
-            lblS.Text = strani.ToString();
-            lblU.Text = (strani + domaci).ToString();
+            lblD.Text = domaci.ToString("#,###.##");
+            lblS.Text = strani.ToString("#,###.##");
+            lblU.Text = (strani + domaci).ToString("#,###.##");
         }
         private void popuniED()
         {
@@ -119,6 +128,8 @@ namespace ProdajnePorudzbine
             cbKupac.DisplayMember = "Name";
             cbKupac.ValueMember = "No_";
             cbKupac.SelectedIndex = -1;
+           
+
         }
 
         private void popuniType()
@@ -136,6 +147,38 @@ namespace ProdajnePorudzbine
             }
             catch
             { }
+        }
+
+        private void ucitajStavke(string nalog)
+        {
+            string qUpit = "SELECT        [Line No_], [Shipment Date], Quantity, [Unit Price], Amount " +
+                        " FROM dbo.[Stirg Produkcija$Sales Line] " +
+                        " WHERE([Document No_] = N'" + nalog + "')  AND ([Sell-to Customer No_] <> N'')";
+            DataTable dt = metode.DB.baza_upit(qUpit);
+            if (dt.Rows.Count > 0)
+            {
+                dgvSalesLine.DataSource = dt;
+                dgvSalesLine.Columns["Amount"].DefaultCellStyle.Format = "N2";
+                dgvSalesLine.Columns["Unit Price"].DefaultCellStyle.Format = "N2";
+                dgvSalesLine.Columns["Quantity"].DefaultCellStyle.Format = "N";
+
+                dgvSalesLine.Columns["Amount"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvSalesLine.Columns["Unit Price"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvSalesLine.Columns["Quantity"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+            }
+            else
+            {
+                dgvSalesLine.DataSource = null;
+               
+            }
+        }
+
+        private void dgvSalesHeader_Click(object sender, EventArgs e)
+        {
+            if(dgvSalesHeader.CurrentRow!=null)
+            {
+                ucitajStavke(dgvSalesHeader.CurrentRow.Cells["No_"].Value.ToString());
+            }
         }
     }
 }

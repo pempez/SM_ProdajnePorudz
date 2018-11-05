@@ -30,9 +30,16 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.lblU = new System.Windows.Forms.Label();
+            this.lblS = new System.Windows.Forms.Label();
+            this.lblD = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.dgvSalesHeader = new System.Windows.Forms.DataGridView();
             this.dgvSalesLine = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbType = new System.Windows.Forms.ComboBox();
             this.btnPronadji = new System.Windows.Forms.Button();
             this.cbKupac = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,13 +50,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cbPeriod = new System.Windows.Forms.CheckBox();
             this.cbNalog = new System.Windows.Forms.ComboBox();
-            this.cbType = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblD = new System.Windows.Forms.Label();
-            this.lblS = new System.Windows.Forms.Label();
-            this.lblU = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -96,6 +97,66 @@
             this.splitContainer1.SplitterDistance = 327;
             this.splitContainer1.TabIndex = 0;
             // 
+            // lblU
+            // 
+            this.lblU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblU.AutoSize = true;
+            this.lblU.Location = new System.Drawing.Point(229, 293);
+            this.lblU.Name = "lblU";
+            this.lblU.Size = new System.Drawing.Size(0, 13);
+            this.lblU.TabIndex = 6;
+            this.lblU.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblS
+            // 
+            this.lblS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblS.AutoSize = true;
+            this.lblS.Location = new System.Drawing.Point(229, 280);
+            this.lblS.Name = "lblS";
+            this.lblS.Size = new System.Drawing.Size(0, 13);
+            this.lblS.TabIndex = 5;
+            this.lblS.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblD
+            // 
+            this.lblD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblD.AutoSize = true;
+            this.lblD.Location = new System.Drawing.Point(229, 267);
+            this.lblD.Name = "lblD";
+            this.lblD.Size = new System.Drawing.Size(0, 13);
+            this.lblD.TabIndex = 4;
+            this.lblD.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(175, 293);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Ukupno:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(145, 280);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Ukupno Strani:";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(136, 267);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Ukupno Domaci:";
+            // 
             // dgvSalesHeader
             // 
             this.dgvSalesHeader.AllowUserToAddRows = false;
@@ -110,20 +171,28 @@
             this.dgvSalesHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSalesHeader.Size = new System.Drawing.Size(1165, 230);
             this.dgvSalesHeader.TabIndex = 0;
+            this.dgvSalesHeader.Click += new System.EventHandler(this.dgvSalesHeader_Click);
             // 
             // dgvSalesLine
             // 
+            this.dgvSalesLine.AllowUserToAddRows = false;
+            this.dgvSalesLine.AllowUserToDeleteRows = false;
             this.dgvSalesLine.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvSalesLine.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvSalesLine.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvSalesLine.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSalesLine.Location = new System.Drawing.Point(9, 17);
             this.dgvSalesLine.Name = "dgvSalesLine";
+            this.dgvSalesLine.ReadOnly = true;
+            this.dgvSalesLine.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSalesLine.Size = new System.Drawing.Size(1165, 299);
             this.dgvSalesLine.TabIndex = 1;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.cbType);
             this.groupBox2.Controls.Add(this.btnPronadji);
             this.groupBox2.Controls.Add(this.cbKupac);
@@ -140,6 +209,17 @@
             this.groupBox2.Size = new System.Drawing.Size(1102, 102);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
+            // 
+            // cbType
+            // 
+            this.cbType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
+            this.cbType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbType.FormattingEnabled = true;
+            this.cbType.Location = new System.Drawing.Point(11, 34);
+            this.cbType.Name = "cbType";
+            this.cbType.Size = new System.Drawing.Size(171, 21);
+            this.cbType.TabIndex = 42;
+            this.cbType.SelectedValueChanged += new System.EventHandler(this.cbType_SelectedValueChanged);
             // 
             // btnPronadji
             // 
@@ -236,67 +316,14 @@
             this.cbNalog.Size = new System.Drawing.Size(171, 21);
             this.cbNalog.TabIndex = 32;
             // 
-            // cbType
+            // label5
             // 
-            this.cbType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append;
-            this.cbType.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbType.FormattingEnabled = true;
-            this.cbType.Location = new System.Drawing.Point(11, 19);
-            this.cbType.Name = "cbType";
-            this.cbType.Size = new System.Drawing.Size(171, 21);
-            this.cbType.TabIndex = 42;
-            this.cbType.SelectedValueChanged += new System.EventHandler(this.cbType_SelectedValueChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(136, 267);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(87, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Ukupno Domaci:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(145, 280);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Ukupno Strani:";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(175, 293);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Ukupno:";
-            // 
-            // lblD
-            // 
-            this.lblD.AutoSize = true;
-            this.lblD.Location = new System.Drawing.Point(229, 267);
-            this.lblD.Name = "lblD";
-            this.lblD.Size = new System.Drawing.Size(0, 13);
-            this.lblD.TabIndex = 4;
-            // 
-            // lblS
-            // 
-            this.lblS.AutoSize = true;
-            this.lblS.Location = new System.Drawing.Point(229, 280);
-            this.lblS.Name = "lblS";
-            this.lblS.Size = new System.Drawing.Size(0, 13);
-            this.lblS.TabIndex = 5;
-            // 
-            // lblU
-            // 
-            this.lblU.AutoSize = true;
-            this.lblU.Location = new System.Drawing.Point(229, 293);
-            this.lblU.Name = "lblU";
-            this.lblU.Size = new System.Drawing.Size(0, 13);
-            this.lblU.TabIndex = 6;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(66, 13);
+            this.label5.TabIndex = 43;
+            this.label5.Text = "Vrsta naloga";
             // 
             // Form1
             // 
@@ -306,7 +333,8 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Porudzbine";
             this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -345,6 +373,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label5;
     }
 }
 
