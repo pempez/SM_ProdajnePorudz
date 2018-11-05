@@ -1,0 +1,11 @@
+sales header
+sales line
+customer 
+
+SELECT        dbo.[Stirg Produkcija$Sales Header].No_, dbo.[Stirg Produkcija$Sales Header].[Sell-to Customer No_], dbo.[Stirg Produkcija$Customer].Name, dbo.[Stirg Produkcija$Sales Header].[External Document No_], 
+                         dbo.[Stirg Produkcija$Sales Header].[Document Date], dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group], t1.[Document No_], t1.[Vrednost porudzbine]
+FROM            dbo.[Stirg Produkcija$Sales Header] INNER JOIN
+                         dbo.[Stirg Produkcija$Customer] ON dbo.[Stirg Produkcija$Customer].No_ = dbo.[Stirg Produkcija$Sales Header].[Sell-to Customer No_] INNER JOIN
+                             (SELECT        [Document No_], SUM(Amount) AS [Vrednost porudzbine]
+                               FROM            dbo.[Stirg Produkcija$Sales Line]
+                               GROUP BY [Document No_]) AS t1 ON t1.[Document No_] = dbo.[Stirg Produkcija$Sales Header].No_
