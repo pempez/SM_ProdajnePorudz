@@ -50,6 +50,8 @@
             this.dgvSalesHeader = new System.Windows.Forms.DataGridView();
             this.dgvSalesLine = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnPDF = new System.Windows.Forms.Button();
+            this.btnStampa = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.tbKurs = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -127,7 +129,6 @@
             this.groupBox4.TabIndex = 11;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Bez PDV";
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // lblUkupnoEvroBez
             // 
@@ -287,10 +288,11 @@
             this.dgvSalesHeader.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSalesHeader.Location = new System.Drawing.Point(11, 22);
             this.dgvSalesHeader.Name = "dgvSalesHeader";
-            this.dgvSalesHeader.ReadOnly = true;
             this.dgvSalesHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvSalesHeader.Size = new System.Drawing.Size(1158, 284);
             this.dgvSalesHeader.TabIndex = 0;
+            this.dgvSalesHeader.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSalesHeader_CellContentClick);
+            this.dgvSalesHeader.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSalesHeader_CellMouseClick);
             this.dgvSalesHeader.SelectionChanged += new System.EventHandler(this.dgvSalesHeader_SelectionChanged);
             this.dgvSalesHeader.Click += new System.EventHandler(this.dgvSalesHeader_Click);
             this.dgvSalesHeader.MouseEnter += new System.EventHandler(this.dgvSalesHeader_MouseEnter);
@@ -315,6 +317,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnPDF);
+            this.groupBox2.Controls.Add(this.btnStampa);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.tbKurs);
             this.groupBox2.Controls.Add(this.label5);
@@ -335,6 +339,29 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
+            // btnPDF
+            // 
+            this.btnPDF.Enabled = false;
+            this.btnPDF.Location = new System.Drawing.Point(927, 66);
+            this.btnPDF.Name = "btnPDF";
+            this.btnPDF.Size = new System.Drawing.Size(75, 23);
+            this.btnPDF.TabIndex = 47;
+            this.btnPDF.Text = "PDF";
+            this.btnPDF.UseVisualStyleBackColor = true;
+            this.btnPDF.Visible = false;
+            // 
+            // btnStampa
+            // 
+            this.btnStampa.Enabled = false;
+            this.btnStampa.Location = new System.Drawing.Point(846, 65);
+            this.btnStampa.Name = "btnStampa";
+            this.btnStampa.Size = new System.Drawing.Size(75, 23);
+            this.btnStampa.TabIndex = 46;
+            this.btnStampa.Text = "Stampa";
+            this.btnStampa.UseVisualStyleBackColor = true;
+            this.btnStampa.Visible = false;
+            this.btnStampa.Click += new System.EventHandler(this.btnStampa_Click);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -348,7 +375,7 @@
             // 
             this.tbKurs.Location = new System.Drawing.Point(740, 29);
             this.tbKurs.Name = "tbKurs";
-            this.tbKurs.Size = new System.Drawing.Size(100, 20);
+            this.tbKurs.Size = new System.Drawing.Size(75, 20);
             this.tbKurs.TabIndex = 44;
             this.tbKurs.Leave += new System.EventHandler(this.tbKurs_Leave);
             // 
@@ -479,7 +506,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Porudzbine";
+            this.Text = "Stampa";
             this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -536,6 +563,8 @@
         private System.Windows.Forms.Label lblUkupnoEvroPDV;
         private System.Windows.Forms.Label lblStraniEvroPDV;
         private System.Windows.Forms.Label lblDomaciEvroPDV;
+        private System.Windows.Forms.Button btnPDF;
+        private System.Windows.Forms.Button btnStampa;
     }
 }
 

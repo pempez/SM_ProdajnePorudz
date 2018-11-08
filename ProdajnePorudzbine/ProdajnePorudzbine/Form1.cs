@@ -8,10 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+using System.Data.SqlClient;
+using System.IO;
+using System.Threading;
+using System.Globalization;
+using System.Drawing.Printing;
+using CrystalDecisions.CrystalReports.Engine;
+using System.Data.SqlTypes;
+using System.Transactions;
+using System.Xml;
+
 namespace ProdajnePorudzbine
 {
     public partial class Form1 : Form
     {
+        string uslov = "";
+        ReportDocument ReportDoc;
         public Form1()
         {
             InitializeComponent();
@@ -22,6 +35,11 @@ namespace ProdajnePorudzbine
             popuniKupac();
             popuniType();
             ucitajKurs();
+
+            DataGridViewCheckBoxColumn cbBrisanje = new DataGridViewCheckBoxColumn();
+            dgvSalesHeader.Columns.Insert(0, cbBrisanje);
+            cbBrisanje.HeaderText = "Izbaci";
+            cbBrisanje.Name = "cbBrisanje";
         }
 
         private void btnPronadji_Click(object sender, EventArgs e)
@@ -37,52 +55,53 @@ namespace ProdajnePorudzbine
 
 
 
-            string qUpit = "SELECT        dbo.[Stirg Produkcija$Sales Header].No_, dbo.[Stirg Produkcija$Customer].Name, dbo.[Stirg Produkcija$Sales Header].[External Document No_], dbo.[Stirg Produkcija$Sales Header].[Document Date],"+
+            string qUpit = "SELECT        dbo.[Stirg Produkcija$Sales Header].No_, dbo.[Stirg Produkcija$Customer].Name, dbo.[Stirg Produkcija$Sales Header].[External Document No_], dbo.[Stirg Produkcija$Sales Header].[Document Date]," +
 
                 "     CASE WHEN dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = 'INO' THEN t1.[Vrednost porudzbine] * " + tbKurs.Text.Replace(",", ".") + " ELSE t1.[Vrednost porudzbine] END AS [Vrednost porudzbine], " +
                       "   CASE WHEN dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = 'INO' THEN t1.[Vrednost porudzbine sa PDV] * " + tbKurs.Text.Replace(",", ".") + " ELSE t1.[Vrednost porudzbine sa PDV] END AS [Vrednost porudzbine sa PDV]," +
 
                 "       CASE WHEN dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = 'DOMACI' THEN t1.[Vrednost porudzbine] / " + tbKurs.Text.Replace(",", ".") + " ELSE t1.[Vrednost porudzbine] END AS [Iznos u Evrima], " +
                       "   CASE WHEN dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = 'DOMACI' THEN t1.[Vrednost porudzbine sa PDV] / " + tbKurs.Text.Replace(",", ".") + " ELSE t1.[Vrednost porudzbine sa PDV] END AS [Iznos u Evrima sa PDV]," +
-             
+
                        "   dbo.[Stirg Produkcija$Customer].No_ AS Kupac, " +
-                   
+
                     " dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] as Grupa" +
                        " FROM dbo.[Stirg Produkcija$Sales Header] " +
       "   INNER JOIN " +
                "    (SELECT[Document No_], SUM(Amount) AS [Vrednost porudzbine],SUM([Amount Including VAT]) AS [Vrednost porudzbine sa PDV] " +
                            "     FROM            dbo.[Stirg Produkcija$Sales Line] " +
                             "    GROUP BY [Document No_]) AS t1 ON t1.[Document No_] = dbo.[Stirg Produkcija$Sales Header].No_ INNER JOIN " +
-                     "     dbo.[Stirg Produkcija$Customer] ON dbo.[Stirg Produkcija$Sales Header].[Sell-to Customer No_] = dbo.[Stirg Produkcija$Customer].No_ " +
-                              " where    (dbo.[Stirg Produkcija$Sales Header].[Document Type] = " + cbType.SelectedValue.ToString() + ") ";
+                     "     dbo.[Stirg Produkcija$Customer] ON dbo.[Stirg Produkcija$Sales Header].[Sell-to Customer No_] = dbo.[Stirg Produkcija$Customer].No_ ";
+
+            uslov +=" where    (dbo.[Stirg Produkcija$Sales Header].[Document Type] = " + cbType.SelectedValue.ToString() + ") ";
 
             if (cbPeriod.Checked)
             {
-                qUpit += " and (dbo.[Stirg Produkcija$Sales Header].[Document Date] >= CONVERT(DATETIME, '" + datumOd.Year + "-" + datumOd.Month + "-" + datumOd.Day + " 00:00:00', 102))" +
+                uslov += " and (dbo.[Stirg Produkcija$Sales Header].[Document Date] >= CONVERT(DATETIME, '" + datumOd.Year + "-" + datumOd.Month + "-" + datumOd.Day + " 00:00:00', 102))" +
                      " and ( dbo.[Stirg Produkcija$Sales Header].[Document Date] <= CONVERT(DATETIME, '" + datumDo.Year + "-" + datumDo.Month + "-" + datumDo.Day + " 23:59:59', 102)) ";
             }
 
             if (cbNalog.Text != "")
             {
-                qUpit += " and (dbo.[Stirg Produkcija$Sales Header].No_ = N'" + cbNalog.Text + "')";
+                uslov += " and (dbo.[Stirg Produkcija$Sales Header].No_ = N'" + cbNalog.Text + "')";
             }
 
             if (cbKupac.Text != "")
             {
-                qUpit += " AND (dbo.[Stirg Produkcija$Customer].No_ = N'" + cbKupac.SelectedValue + "')";
+                uslov += " AND (dbo.[Stirg Produkcija$Customer].No_ = N'" + cbKupac.SelectedValue + "')";
             }
 
             if (cbDomaciStrani.Text == "Domaci")
             {
 
-                qUpit += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'DOMACI') ";
+                uslov += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'DOMACI') ";
             }
             if (cbDomaciStrani.Text == "Strani")
             {
 
-                qUpit += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'INO') ";
+                uslov += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'INO') ";
             }
-
+            qUpit += uslov;
             DataTable dt = metode.DB.baza_upit(qUpit);
             if (dt.Rows.Count > 0)
             {
@@ -96,13 +115,21 @@ namespace ProdajnePorudzbine
                 dgvSalesHeader.Columns["Iznos u Evrima"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgvSalesHeader.Columns["Iznos u Evrima sa PDV"].DefaultCellStyle.Format = "N2";
                 dgvSalesHeader.Columns["Iznos u Evrima sa PDV"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+
                 dgvSalesHeader_Click(null, null);
                 ukupno();
+                btnStampa.Enabled = true;
+                btnPDF.Enabled = true;
+
             }
             else
             {
                 dgvSalesHeader.DataSource = null;
                 MessageBox.Show("Nema podataka za zadati kreiterijum.");
+
+                btnStampa.Enabled = false;
+                btnPDF.Enabled = false;
             }
         }
 
@@ -119,32 +146,37 @@ namespace ProdajnePorudzbine
 
             foreach (DataGridViewRow r in dgvSalesHeader.Rows)
             {
-                if (r.Cells["Grupa"].Value.ToString() == "INO")
+                if (r.DefaultCellStyle.BackColor.Name != "Red")
                 {
-                    strani += double.Parse(r.Cells["Vrednost porudzbine"].Value.ToString());
-                    straniPDV += double.Parse(r.Cells["Vrednost porudzbine sa PDV"].Value.ToString());
-                    straniEvro += double.Parse(r.Cells["Iznos u Evrima"].Value.ToString());
-                    straniEvroPDV += double.Parse(r.Cells["Iznos u Evrima sa PDV"].Value.ToString());
-                }
-                else
-                {
-                    domaci += double.Parse(r.Cells["Vrednost porudzbine"].Value.ToString());
-                    domaciPDV += double.Parse(r.Cells["Vrednost porudzbine sa PDV"].Value.ToString());
-                    domaciEvro += double.Parse(r.Cells["Iznos u Evrima"].Value.ToString());
-                    domaciEvroPdv += double.Parse(r.Cells["Iznos u Evrima sa PDV"].Value.ToString());
+
+                    if (r.Cells["Grupa"].Value.ToString() == "INO")
+                    {
+                        strani += double.Parse(r.Cells["Vrednost porudzbine"].Value.ToString());
+                        straniPDV += double.Parse(r.Cells["Vrednost porudzbine sa PDV"].Value.ToString());
+                        straniEvro += double.Parse(r.Cells["Iznos u Evrima"].Value.ToString());
+                        straniEvroPDV += double.Parse(r.Cells["Iznos u Evrima sa PDV"].Value.ToString());
+                    }
+                    else
+                    {
+                        domaci += double.Parse(r.Cells["Vrednost porudzbine"].Value.ToString());
+                        domaciPDV += double.Parse(r.Cells["Vrednost porudzbine sa PDV"].Value.ToString());
+                        domaciEvro += double.Parse(r.Cells["Iznos u Evrima"].Value.ToString());
+                        domaciEvroPdv += double.Parse(r.Cells["Iznos u Evrima sa PDV"].Value.ToString());
+                    }
                 }
             }
 
             lblD.Text = domaci.ToString("#,###.##") + " RSD";
-         
+            lblDomaciPDV.Text = domaciPDV.ToString("#,###.##") + " RSD";
+
             lblS.Text = strani.ToString("#,###.##") + " RSD";
             lblU.Text = (strani + domaci).ToString("#,###.##") + " RSD";
 
-            lblDomaciPDV.Text = domaciPDV.ToString("#,###.##") + " RSD";
+
             lblStraniPDV.Text = straniPDV.ToString("#,###.##") + " RSD";
             lblPDV.Text = (straniPDV + domaciPDV).ToString("#,###.##") + " RSD";
 
-            lblStraniEvro.Text = straniEvro.ToString("#,###.##")+ " €";
+            lblStraniEvro.Text = straniEvro.ToString("#,###.##") + " €";
             lblUkuponoEvroDomaci.Text = domaciEvro.ToString("#,###.##") + " €";
             lblUkupnoEvroBez.Text = (straniEvro + domaciEvro).ToString("#,###.##") + " €";
 
@@ -276,9 +308,85 @@ namespace ProdajnePorudzbine
             tbKurs.Text = metode.DB.baza_upit("SELECT valuta, kurs FROM [stirg_local].dbo.kurs WHERE(valuta = N'EUR')").Rows[0]["kurs"].ToString();
         }
 
-        private void groupBox4_Enter(object sender, EventArgs e)
+        private void dgvSalesHeader_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
 
+
+
+        }
+
+        private void dgvSalesHeader_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (dgvSalesHeader.CurrentCell.ColumnIndex.ToString() == "0")
+            {
+                DataGridViewCheckBoxCell cbZaBrisanje = new DataGridViewCheckBoxCell();
+                cbZaBrisanje = (DataGridViewCheckBoxCell)dgvSalesHeader.Rows[dgvSalesHeader.CurrentRow.Index].Cells[0];
+
+                if (e.ColumnIndex == 0)
+                {
+                    if (cbZaBrisanje.Value == null)
+                        cbZaBrisanje.Value = true;
+                    else cbZaBrisanje.Value = !bool.Parse(cbZaBrisanje.Value.ToString());
+
+
+                    if (bool.Parse(cbZaBrisanje.Value.ToString()))
+                    {
+                            dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
+                        
+                    }
+                    else
+                        dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.White;
+                }
+
+                ukupno();
+                string BOJA = dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor.Name;
+                if (BOJA == "Red")
+                {
+                    dgvSalesHeader.CurrentRow.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkRed;
+                    dgvSalesHeader.CurrentRow.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
+                }
+                if (BOJA == "White")
+                {
+                    dgvSalesHeader.CurrentRow.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+                    dgvSalesHeader.CurrentRow.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+                }
+            }
+        }
+
+      
+
+        private void btnStampa_Click(object sender, EventArgs e)
+        {
+          
+
+           makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
+           SetParameters(uslov,tbKurs.Text.Replace(",","."));
+
+            Report rep = new Report(ReportDoc);
+            rep.Show();
+
+        }
+
+        private void SetParameters(string uslov,string kurs)
+        {
+            ReportDoc.SetParameterValue("uslov", uslov);
+            ReportDoc.SetParameterValue("kurs", kurs);
+
+        }
+
+        private void makeReport(string ReportFile)
+        {
+            ReportDoc = new ReportDocument();
+            TextReader textReader = new StreamReader("c:\\Program files\\SM\\dblogon.txt");
+            string uid = textReader.ReadLine();
+            string pwd = textReader.ReadLine();
+            string server = textReader.ReadLine();
+            string db = textReader.ReadLine();
+            textReader.Close();
+
+            ReportDoc.Load(ReportFile);
+            ReportDoc.SetDatabaseLogon(uid, pwd, server, db);
         }
     }
 }
