@@ -348,7 +348,7 @@
             this.btnPDF.TabIndex = 47;
             this.btnPDF.Text = "PDF";
             this.btnPDF.UseVisualStyleBackColor = true;
-            this.btnPDF.Visible = false;
+            this.btnPDF.Click += new System.EventHandler(this.btnPDF_Click);
             // 
             // btnStampa
             // 
@@ -359,7 +359,6 @@
             this.btnStampa.TabIndex = 46;
             this.btnStampa.Text = "Stampa";
             this.btnStampa.UseVisualStyleBackColor = true;
-            this.btnStampa.Visible = false;
             this.btnStampa.Click += new System.EventHandler(this.btnStampa_Click);
             // 
             // label10

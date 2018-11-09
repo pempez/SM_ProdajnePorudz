@@ -1,13 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-
 using CrystalDecisions.CrystalReports.Engine;
 using System.IO;
 using CrystalDecisions.Shared;
@@ -19,7 +16,8 @@ namespace ProdajnePorudzbine
         public Report(ReportDocument rep)
         {
             InitializeComponent();
-            TextReader textReader = new StreamReader("c:\\Program files\\IT\\Finansije\\dblogonPUT.txt");
+
+            TextReader textReader = new StreamReader("c:\\Program files\\SM\\dblogon.txt");
             string uid = textReader.ReadLine();
             string pwd = textReader.ReadLine();
             string server = textReader.ReadLine();

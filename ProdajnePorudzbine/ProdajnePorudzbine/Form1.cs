@@ -24,6 +24,7 @@ namespace ProdajnePorudzbine
     public partial class Form1 : Form
     {
         string uslov = "";
+        string naziv = "ProdajnePorudzbine_";
         ReportDocument ReportDoc;
         public Form1()
         {
@@ -53,8 +54,8 @@ namespace ProdajnePorudzbine
             DateTime datumOd = new DateTime(dtpDatum.Value.Year, dtpDatum.Value.Month, dtpDatum.Value.Day);
             DateTime datumDo = new DateTime(dtpDatumDo.Value.Year, dtpDatumDo.Value.Month, dtpDatumDo.Value.Day);
 
-
-
+            uslov = "";
+            naziv = "ProdajnePorudzbine_";
             string qUpit = "SELECT        dbo.[Stirg Produkcija$Sales Header].No_, dbo.[Stirg Produkcija$Customer].Name, dbo.[Stirg Produkcija$Sales Header].[External Document No_], dbo.[Stirg Produkcija$Sales Header].[Document Date]," +
 
                 "     CASE WHEN dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = 'INO' THEN t1.[Vrednost porudzbine] * " + tbKurs.Text.Replace(",", ".") + " ELSE t1.[Vrednost porudzbine] END AS [Vrednost porudzbine], " +
@@ -73,32 +74,37 @@ namespace ProdajnePorudzbine
                             "    GROUP BY [Document No_]) AS t1 ON t1.[Document No_] = dbo.[Stirg Produkcija$Sales Header].No_ INNER JOIN " +
                      "     dbo.[Stirg Produkcija$Customer] ON dbo.[Stirg Produkcija$Sales Header].[Sell-to Customer No_] = dbo.[Stirg Produkcija$Customer].No_ ";
 
-            uslov +=" where    (dbo.[Stirg Produkcija$Sales Header].[Document Type] = " + cbType.SelectedValue.ToString() + ") ";
+            uslov += " where    (dbo.[Stirg Produkcija$Sales Header].[Document Type] = " + cbType.SelectedValue.ToString() + ") ";
 
             if (cbPeriod.Checked)
             {
+               
+                naziv = datumOd.Day.ToString("00") + "." + datumOd.Month.ToString("00") + "-" + datumDo.Day.ToString("00") + "." + datumDo.Month.ToString("00") + "." + datumDo.Year.ToString("00") ;
+
                 uslov += " and (dbo.[Stirg Produkcija$Sales Header].[Document Date] >= CONVERT(DATETIME, '" + datumOd.Year + "-" + datumOd.Month + "-" + datumOd.Day + " 00:00:00', 102))" +
                      " and ( dbo.[Stirg Produkcija$Sales Header].[Document Date] <= CONVERT(DATETIME, '" + datumDo.Year + "-" + datumDo.Month + "-" + datumDo.Day + " 23:59:59', 102)) ";
             }
 
             if (cbNalog.Text != "")
             {
+                naziv += " " + cbNalog.Text;
                 uslov += " and (dbo.[Stirg Produkcija$Sales Header].No_ = N'" + cbNalog.Text + "')";
             }
 
             if (cbKupac.Text != "")
             {
+                naziv += " " + cbKupac.Text;
                 uslov += " AND (dbo.[Stirg Produkcija$Customer].No_ = N'" + cbKupac.SelectedValue + "')";
             }
 
             if (cbDomaciStrani.Text == "Domaci")
             {
-
+                naziv += " Domaci";
                 uslov += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'DOMACI') ";
             }
             if (cbDomaciStrani.Text == "Strani")
             {
-
+                naziv += " Strani";
                 uslov += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'INO') ";
             }
             qUpit += uslov;
@@ -332,8 +338,8 @@ namespace ProdajnePorudzbine
 
                     if (bool.Parse(cbZaBrisanje.Value.ToString()))
                     {
-                            dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
-                        
+                        dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
+
                     }
                     else
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.White;
@@ -354,21 +360,21 @@ namespace ProdajnePorudzbine
             }
         }
 
-      
+
 
         private void btnStampa_Click(object sender, EventArgs e)
         {
-          
 
-           makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
-           SetParameters(uslov,tbKurs.Text.Replace(",","."));
+
+            makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
+            SetParameters(uslov, tbKurs.Text.Replace(",", "."));
 
             Report rep = new Report(ReportDoc);
-            rep.Show();
+            rep.ShowDialog();
 
         }
 
-        private void SetParameters(string uslov,string kurs)
+        private void SetParameters(string uslov, string kurs)
         {
             ReportDoc.SetParameterValue("uslov", uslov);
             ReportDoc.SetParameterValue("kurs", kurs);
@@ -387,6 +393,26 @@ namespace ProdajnePorudzbine
 
             ReportDoc.Load(ReportFile);
             ReportDoc.SetDatabaseLogon(uid, pwd, server, db);
+        }
+
+        private void btnPDF_Click(object sender, EventArgs e)
+        {
+            DirectoryInfo dir = new DirectoryInfo("D:\\Dokumenti");
+            if (!dir.Exists)
+            {
+                Directory.CreateDirectory("D:\\Dokumenti");
+            }
+
+            makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
+            SetParameters(uslov, tbKurs.Text.Replace(",", "."));
+
+            //  Report rep = new Report(ReportDoc);
+            naziv +=   ".pdf";
+            ReportDoc.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, "D:\\Dokumenti\\" + naziv);
+
+            MessageBox.Show("PDF file uspesno sacuvan u D:\\Dokumenti\\" + naziv, "Uspesno", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
         }
     }
 }
