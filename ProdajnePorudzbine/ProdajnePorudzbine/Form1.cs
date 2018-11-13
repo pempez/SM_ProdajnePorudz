@@ -26,8 +26,12 @@ namespace ProdajnePorudzbine
         string uslov = "";
         string naziv = "ProdajnePorudzbine_";
         string dodatniUslov = "";
+        string exclude = "";
         ReportDocument ReportDoc;
 
+
+        int brojIzbacenih;
+        string[] kupci;
 
         public Form1()
         {
@@ -85,8 +89,8 @@ namespace ProdajnePorudzbine
 
             if (cbPeriod.Checked)
             {
-               
-                naziv = datumOd.Day.ToString("00") + "." + datumOd.Month.ToString("00") + "-" + datumDo.Day.ToString("00") + "." + datumDo.Month.ToString("00") + "." + datumDo.Year.ToString("00") ;
+
+                naziv = datumOd.Day.ToString("00") + "." + datumOd.Month.ToString("00") + "-" + datumDo.Day.ToString("00") + "." + datumDo.Month.ToString("00") + "." + datumDo.Year.ToString("00");
 
                 uslov += " and (dbo.[Stirg Produkcija$Sales Header].[Document Date] >= CONVERT(DATETIME, '" + datumOd.Year + "-" + datumOd.Month + "-" + datumOd.Day + " 00:00:00', 102))" +
                      " and ( dbo.[Stirg Produkcija$Sales Header].[Document Date] <= CONVERT(DATETIME, '" + datumDo.Year + "-" + datumDo.Month + "-" + datumDo.Day + " 23:59:59', 102)) ";
@@ -114,6 +118,8 @@ namespace ProdajnePorudzbine
                 naziv += " Strani";
                 uslov += " and ( dbo.[Stirg Produkcija$Sales Header].[Customer Posting Group] = N'INO') ";
             }
+
+            uslov += exclude;
             qUpit += uslov;
             DataTable dt = metode.DB.baza_upit(qUpit);
             if (dt.Rows.Count > 0)
@@ -182,13 +188,13 @@ namespace ProdajnePorudzbine
             {
                 if (cbDomaciStrani.Text == "Strani")
                 {
-                   
+
                     lblS.Text = strani.ToString("#,###.##") + " RSD";
                     lblStraniPDV.Text = straniPDV.ToString("#,###.##") + " RSD";
                     lblStraniEvro.Text = straniEvro.ToString("#,###.##") + " €";
                     lblStraniEvroPDV.Text = straniEvroPDV.ToString("#,###.##") + " €";
 
-                    lblD.Text ="";
+                    lblD.Text = "";
                     lblDomaciPDV.Text = "";
                     lblUkuponoEvroDomaci.Text = "";
                     lblDomaciEvroPDV.Text = "";
@@ -363,7 +369,7 @@ namespace ProdajnePorudzbine
             {
                 DataGridViewCheckBoxCell cbZaBrisanje = new DataGridViewCheckBoxCell();
                 cbZaBrisanje = (DataGridViewCheckBoxCell)dgvSalesHeader.Rows[dgvSalesHeader.CurrentRow.Index].Cells[0];
-              
+
                 if (e.ColumnIndex == 0)
                 {
                     if (cbZaBrisanje.Value == null)
@@ -374,7 +380,7 @@ namespace ProdajnePorudzbine
                     if (bool.Parse(cbZaBrisanje.Value.ToString()))
                     {
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
-                      
+
                     }
                     else
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.White;
@@ -407,7 +413,7 @@ namespace ProdajnePorudzbine
                 }
             }
 
-          
+
 
         }
 
@@ -426,7 +432,7 @@ namespace ProdajnePorudzbine
         private void SetParameters(string uslov, string kurs)
         {
             ReportDoc.SetParameterValue("uslov", uslov);
-            ReportDoc.SetParameterValue("kurs", kurs.Replace(".",","));
+            ReportDoc.SetParameterValue("kurs", kurs.Replace(".", ","));
 
         }
 
@@ -456,12 +462,34 @@ namespace ProdajnePorudzbine
             SetParameters(uslov, tbKurs.Text);
 
             //  Report rep = new Report(ReportDoc);
-            naziv +=   ".pdf";
+            naziv += ".pdf";
             ReportDoc.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, "C:\\Dokumenti\\" + naziv);
 
             MessageBox.Show("PDF file uspesno sacuvan u C:\\Dokumenti\\" + naziv, "Uspesno", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormIzbaciKupca f1 = new FormIzbaciKupca();
+            f1.ShowDialog();
+            exclude = "";
+            rtbIzbaceni.Text = "";
+
+            try
+            {
+                exclude += f1.filter;
+                brojIzbacenih = f1.brojIzbacenih;
+                kupci = f1.kupci;
+
+                string sviKupci = string.Join(",", kupci);
+                rtbIzbaceni.Text = sviKupci;
+            }
+            catch
+            {
+                
+            }
+            }
     }
 }

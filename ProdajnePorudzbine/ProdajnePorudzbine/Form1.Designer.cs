@@ -66,6 +66,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cbPeriod = new System.Windows.Forms.CheckBox();
             this.cbNalog = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.rtbIzbaceni = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -317,6 +319,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.rtbIzbaceni);
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.btnPDF);
             this.groupBox2.Controls.Add(this.btnStampa);
             this.groupBox2.Controls.Add(this.label10);
@@ -342,7 +346,7 @@
             // btnPDF
             // 
             this.btnPDF.Enabled = false;
-            this.btnPDF.Location = new System.Drawing.Point(927, 66);
+            this.btnPDF.Location = new System.Drawing.Point(902, 65);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(75, 23);
             this.btnPDF.TabIndex = 47;
@@ -353,7 +357,7 @@
             // btnStampa
             // 
             this.btnStampa.Enabled = false;
-            this.btnStampa.Location = new System.Drawing.Point(846, 65);
+            this.btnStampa.Location = new System.Drawing.Point(821, 64);
             this.btnStampa.Name = "btnStampa";
             this.btnStampa.Size = new System.Drawing.Size(75, 23);
             this.btnStampa.TabIndex = 46;
@@ -496,6 +500,25 @@
             this.cbNalog.Size = new System.Drawing.Size(171, 21);
             this.cbNalog.TabIndex = 32;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(325, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(26, 17);
+            this.button1.TabIndex = 48;
+            this.button1.Text = "-";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // rtbIzbaceni
+            // 
+            this.rtbIzbaceni.Enabled = false;
+            this.rtbIzbaceni.Location = new System.Drawing.Point(996, 12);
+            this.rtbIzbaceni.Name = "rtbIzbaceni";
+            this.rtbIzbaceni.Size = new System.Drawing.Size(175, 78);
+            this.rtbIzbaceni.TabIndex = 49;
+            this.rtbIzbaceni.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -564,6 +587,8 @@
         private System.Windows.Forms.Label lblDomaciEvroPDV;
         private System.Windows.Forms.Button btnPDF;
         private System.Windows.Forms.Button btnStampa;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RichTextBox rtbIzbaceni;
     }
 }
 
