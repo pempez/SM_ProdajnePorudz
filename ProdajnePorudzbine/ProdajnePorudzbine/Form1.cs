@@ -328,7 +328,7 @@ namespace ProdajnePorudzbine
             {
                 DataGridViewCheckBoxCell cbZaBrisanje = new DataGridViewCheckBoxCell();
                 cbZaBrisanje = (DataGridViewCheckBoxCell)dgvSalesHeader.Rows[dgvSalesHeader.CurrentRow.Index].Cells[0];
-
+                string dodatniUslov = "";
                 if (e.ColumnIndex == 0)
                 {
                     if (cbZaBrisanje.Value == null)
@@ -339,6 +339,7 @@ namespace ProdajnePorudzbine
                     if (bool.Parse(cbZaBrisanje.Value.ToString()))
                     {
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
+                        dodatniUslov += " and (dbo.[Stirg Produkcija$Sales Header].No_ <> N'" + dgvSalesHeader.CurrentRow.Cells["No_"].Value.ToString() + "')";
 
                     }
                     else
