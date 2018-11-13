@@ -25,9 +25,16 @@ namespace ProdajnePorudzbine
     {
         string uslov = "";
         string naziv = "ProdajnePorudzbine_";
+        string dodatniUslov = "";
         ReportDocument ReportDoc;
+
+
         public Form1()
         {
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-us", false);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us", false);
+
             InitializeComponent();
 
             // popuniED();
@@ -171,25 +178,53 @@ namespace ProdajnePorudzbine
                     }
                 }
             }
+            if (cbDomaciStrani.Text != "")
+            {
+                if (cbDomaciStrani.Text == "Strani")
+                {
+                   
+                    lblS.Text = strani.ToString("#,###.##") + " RSD";
+                    lblStraniPDV.Text = straniPDV.ToString("#,###.##") + " RSD";
+                    lblStraniEvro.Text = straniEvro.ToString("#,###.##") + " €";
+                    lblStraniEvroPDV.Text = straniEvroPDV.ToString("#,###.##") + " €";
 
-            lblD.Text = domaci.ToString("#,###.##") + " RSD";
-            lblDomaciPDV.Text = domaciPDV.ToString("#,###.##") + " RSD";
+                    lblD.Text ="";
+                    lblDomaciPDV.Text = "";
+                    lblUkuponoEvroDomaci.Text = "";
+                    lblDomaciEvroPDV.Text = "";
+                }
+                else
+                {
 
-            lblS.Text = strani.ToString("#,###.##") + " RSD";
+                    lblS.Text = "";
+                    lblStraniPDV.Text = "";
+                    lblStraniEvro.Text = "";
+                    lblStraniEvroPDV.Text = "";
+
+
+                    lblD.Text = domaci.ToString("#,###.##") + " RSD";
+                    lblDomaciPDV.Text = domaciPDV.ToString("#,###.##") + " RSD";
+                    lblUkuponoEvroDomaci.Text = domaciEvro.ToString("#,###.##") + " €";
+                    lblDomaciEvroPDV.Text = domaciEvroPdv.ToString("#,###.##") + " €";
+                }
+            }
+            else
+            {
+                lblS.Text = strani.ToString("#,###.##") + " RSD";
+                lblStraniPDV.Text = straniPDV.ToString("#,###.##") + " RSD";
+                lblStraniEvro.Text = straniEvro.ToString("#,###.##") + " €";
+                lblStraniEvroPDV.Text = straniEvroPDV.ToString("#,###.##") + " €";
+
+                lblD.Text = domaci.ToString("#,###.##") + " RSD";
+                lblDomaciPDV.Text = domaciPDV.ToString("#,###.##") + " RSD";
+                lblUkuponoEvroDomaci.Text = domaciEvro.ToString("#,###.##") + " €";
+                lblDomaciEvroPDV.Text = domaciEvroPdv.ToString("#,###.##") + " €";
+            }
+
             lblU.Text = (strani + domaci).ToString("#,###.##") + " RSD";
-
-
-            lblStraniPDV.Text = straniPDV.ToString("#,###.##") + " RSD";
             lblPDV.Text = (straniPDV + domaciPDV).ToString("#,###.##") + " RSD";
-
-            lblStraniEvro.Text = straniEvro.ToString("#,###.##") + " €";
-            lblUkuponoEvroDomaci.Text = domaciEvro.ToString("#,###.##") + " €";
             lblUkupnoEvroBez.Text = (straniEvro + domaciEvro).ToString("#,###.##") + " €";
-
-            lblStraniEvroPDV.Text = straniEvroPDV.ToString("#,###.##") + " €";
-            lblDomaciEvroPDV.Text = domaciEvroPdv.ToString("#,###.##") + " €";
             lblUkupnoEvroPDV.Text = (straniEvroPDV + domaciEvroPdv).ToString("#,###.##") + " €";
-
         }
         private void popuniED()
         {
@@ -328,7 +363,7 @@ namespace ProdajnePorudzbine
             {
                 DataGridViewCheckBoxCell cbZaBrisanje = new DataGridViewCheckBoxCell();
                 cbZaBrisanje = (DataGridViewCheckBoxCell)dgvSalesHeader.Rows[dgvSalesHeader.CurrentRow.Index].Cells[0];
-                string dodatniUslov = "";
+              
                 if (e.ColumnIndex == 0)
                 {
                     if (cbZaBrisanje.Value == null)
@@ -339,8 +374,7 @@ namespace ProdajnePorudzbine
                     if (bool.Parse(cbZaBrisanje.Value.ToString()))
                     {
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
-                        dodatniUslov += " and (dbo.[Stirg Produkcija$Sales Header].No_ <> N'" + dgvSalesHeader.CurrentRow.Cells["No_"].Value.ToString() + "')";
-
+                      
                     }
                     else
                         dgvSalesHeader.CurrentRow.DefaultCellStyle.BackColor = Color.White;
@@ -361,14 +395,28 @@ namespace ProdajnePorudzbine
             }
         }
 
+        private void izbaciIzIzvestaja()
+        {
+            dodatniUslov = "";
 
+            foreach (DataGridViewRow r in dgvSalesHeader.Rows)
+            {
+                if (r.DefaultCellStyle.BackColor.Name == "Red")
+                {
+                    dodatniUslov += " and (dbo.[Stirg Produkcija$Sales Header].No_ <> N'" + r.Cells["No_"].Value.ToString() + "') ";
+                }
+            }
+
+          
+
+        }
 
         private void btnStampa_Click(object sender, EventArgs e)
         {
-
+            izbaciIzIzvestaja();
 
             makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
-            SetParameters(uslov, tbKurs.Text.Replace(",", "."));
+            SetParameters(uslov + dodatniUslov, tbKurs.Text);
 
             Report rep = new Report(ReportDoc);
             rep.ShowDialog();
@@ -378,7 +426,7 @@ namespace ProdajnePorudzbine
         private void SetParameters(string uslov, string kurs)
         {
             ReportDoc.SetParameterValue("uslov", uslov);
-            ReportDoc.SetParameterValue("kurs", kurs);
+            ReportDoc.SetParameterValue("kurs", kurs.Replace(".",","));
 
         }
 
@@ -398,20 +446,20 @@ namespace ProdajnePorudzbine
 
         private void btnPDF_Click(object sender, EventArgs e)
         {
-            DirectoryInfo dir = new DirectoryInfo("D:\\Dokumenti");
+            DirectoryInfo dir = new DirectoryInfo("C:\\Dokumenti");
             if (!dir.Exists)
             {
-                Directory.CreateDirectory("D:\\Dokumenti");
+                Directory.CreateDirectory("C:\\Dokumenti");
             }
 
             makeReport("C:\\Program files\\SM\\ProdajnePoruzbine.rpt");
-            SetParameters(uslov, tbKurs.Text.Replace(",", "."));
+            SetParameters(uslov, tbKurs.Text);
 
             //  Report rep = new Report(ReportDoc);
             naziv +=   ".pdf";
-            ReportDoc.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, "D:\\Dokumenti\\" + naziv);
+            ReportDoc.ExportToDisk(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, "C:\\Dokumenti\\" + naziv);
 
-            MessageBox.Show("PDF file uspesno sacuvan u D:\\Dokumenti\\" + naziv, "Uspesno", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("PDF file uspesno sacuvan u C:\\Dokumenti\\" + naziv, "Uspesno", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 
         }
