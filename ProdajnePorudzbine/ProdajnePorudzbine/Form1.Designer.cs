@@ -435,7 +435,7 @@
             this.cbDomaciStrani.Items.AddRange(new object[] {
             "Domaci",
             "Strani"});
-            this.cbDomaciStrani.Location = new System.Drawing.Point(360, 68);
+            this.cbDomaciStrani.Location = new System.Drawing.Point(360, 67);
             this.cbDomaciStrani.Name = "cbDomaciStrani";
             this.cbDomaciStrani.Size = new System.Drawing.Size(171, 21);
             this.cbDomaciStrani.TabIndex = 37;
@@ -443,7 +443,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(357, 52);
+            this.label9.Location = new System.Drawing.Point(357, 51);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(71, 13);
             this.label9.TabIndex = 38;
@@ -453,7 +453,7 @@
             // 
             this.dtpDatum.CustomFormat = "dd.MM.yyyy";
             this.dtpDatum.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatum.Location = new System.Drawing.Point(537, 68);
+            this.dtpDatum.Location = new System.Drawing.Point(540, 67);
             this.dtpDatum.Name = "dtpDatum";
             this.dtpDatum.Size = new System.Drawing.Size(78, 20);
             this.dtpDatum.TabIndex = 30;
@@ -462,7 +462,7 @@
             // 
             this.dtpDatumDo.CustomFormat = "dd.MM.yyyy";
             this.dtpDatumDo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDatumDo.Location = new System.Drawing.Point(621, 68);
+            this.dtpDatumDo.Location = new System.Drawing.Point(624, 67);
             this.dtpDatumDo.Name = "dtpDatumDo";
             this.dtpDatumDo.Size = new System.Drawing.Size(78, 20);
             this.dtpDatumDo.TabIndex = 31;
@@ -479,7 +479,7 @@
             // cbPeriod
             // 
             this.cbPeriod.AutoSize = true;
-            this.cbPeriod.Location = new System.Drawing.Point(537, 46);
+            this.cbPeriod.Location = new System.Drawing.Point(540, 45);
             this.cbPeriod.Name = "cbPeriod";
             this.cbPeriod.Size = new System.Drawing.Size(56, 17);
             this.cbPeriod.TabIndex = 36;
