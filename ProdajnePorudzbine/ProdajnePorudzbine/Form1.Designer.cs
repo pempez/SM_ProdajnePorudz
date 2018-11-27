@@ -50,6 +50,8 @@
             this.dgvSalesHeader = new System.Windows.Forms.DataGridView();
             this.dgvSalesLine = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rtbIzbaceni = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnPDF = new System.Windows.Forms.Button();
             this.btnStampa = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
@@ -66,8 +68,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cbPeriod = new System.Windows.Forms.CheckBox();
             this.cbNalog = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.rtbIzbaceni = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -319,6 +320,9 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.rtbIzbaceni);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.btnPDF);
@@ -342,6 +346,26 @@
             this.groupBox2.Size = new System.Drawing.Size(1183, 103);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
+            // 
+            // rtbIzbaceni
+            // 
+            this.rtbIzbaceni.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rtbIzbaceni.Location = new System.Drawing.Point(996, 12);
+            this.rtbIzbaceni.Name = "rtbIzbaceni";
+            this.rtbIzbaceni.Size = new System.Drawing.Size(175, 78);
+            this.rtbIzbaceni.TabIndex = 49;
+            this.rtbIzbaceni.Text = "";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(325, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(26, 17);
+            this.button1.TabIndex = 48;
+            this.button1.Text = "-";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnPDF
             // 
@@ -500,24 +524,16 @@
             this.cbNalog.Size = new System.Drawing.Size(171, 21);
             this.cbNalog.TabIndex = 32;
             // 
-            // button1
+            // label6
             // 
-            this.button1.Location = new System.Drawing.Point(325, 49);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(26, 17);
-            this.button1.TabIndex = 48;
-            this.button1.Text = "-";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // rtbIzbaceni
-            // 
-            this.rtbIzbaceni.Enabled = false;
-            this.rtbIzbaceni.Location = new System.Drawing.Point(996, 12);
-            this.rtbIzbaceni.Name = "rtbIzbaceni";
-            this.rtbIzbaceni.Size = new System.Drawing.Size(175, 78);
-            this.rtbIzbaceni.TabIndex = 49;
-            this.rtbIzbaceni.Text = "";
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(962, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 13);
+            this.label6.TabIndex = 50;
+            this.label6.Text = "Bez:";
             // 
             // Form1
             // 
@@ -589,6 +605,7 @@
         private System.Windows.Forms.Button btnStampa;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox rtbIzbaceni;
+        private System.Windows.Forms.Label label6;
     }
 }
 

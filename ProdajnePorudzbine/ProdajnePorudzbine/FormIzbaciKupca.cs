@@ -16,17 +16,20 @@ namespace ProdajnePorudzbine
         public string[] kupci { get; set; }
         public int brojIzbacenih { get; set; }
         int brojSelektovanih = 0;
-        public FormIzbaciKupca()
+        public FormIzbaciKupca(string[] selektovaniKupci)
         {
             InitializeComponent();
             popuniKupce();
             filter = "";
             DataGridViewCheckBoxColumn cbBrisanje = new DataGridViewCheckBoxColumn();
             dgvIzbaci.Columns.Insert(0, cbBrisanje);
+            cbBrisanje.ReadOnly = false;
             cbBrisanje.HeaderText = "Izbaci";
             cbBrisanje.Name = "cbBrisanje";
+            cbBrisanje.TrueValue = true;
+            cbBrisanje.FalseValue = false;
 
-          
+            oznaciKupce(selektovaniKupci);
         }
 
         private void popuniKupce()
@@ -35,6 +38,46 @@ namespace ProdajnePorudzbine
 
         }
 
+        private void oznaciKupce(string[] kupciZaOznacavanje)
+        {
+            if (kupciZaOznacavanje != null)
+            {
+
+                int brojKupaca = kupciZaOznacavanje.Length;
+                if (brojKupaca > 0)
+                {
+                    foreach (string kup in kupciZaOznacavanje)
+                    {
+                      
+                        foreach (DataGridViewRow r in dgvIzbaci.Rows)
+                        {
+                           
+                            try
+                            {
+                                if (r.Cells["Name"].Value.ToString() == kup)
+                                {
+
+                                    //dgvIzbaci.CurrentCell = dgvIzbaci.Rows[r.Index].Cells[0];
+                                    //dgvIzbaci_CellContentClick();
+
+                                    DataGridViewCheckBoxCell chk = (DataGridViewCheckBoxCell)r.Cells[0];
+                                    chk.Value = chk.TrueValue;
+                                    ((DataGridViewCheckBoxCell)r.Cells[0]).Value = true;
+
+
+
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }
+                    }
+                  
+                }
+            }
+        }
         private void btnOK_Click(object sender, EventArgs e)
         {
             int brojac = 0;
@@ -45,7 +88,7 @@ namespace ProdajnePorudzbine
                 if (r.DefaultCellStyle.BackColor.Name == "Red")
                 {
                     filter += " AND (dbo.[Stirg Produkcija$Customer].No_ <> N'" + r.Cells["No_"].Value.ToString() + "') ";
-                    kupci[brojac] = r.Cells["Name"].Value.ToString()+",";
+                    kupci[brojac] = r.Cells["Name"].Value.ToString();
                     brojac++;
                 }
             }
@@ -79,6 +122,44 @@ namespace ProdajnePorudzbine
                         brojSelektovanih--;
                     }
                 }
+                string BOJA = dgvIzbaci.CurrentRow.DefaultCellStyle.BackColor.Name;
+                if (BOJA == "Red")
+                {
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.SelectionBackColor = System.Drawing.Color.DarkRed;
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.SelectionForeColor = System.Drawing.Color.White;
+                }
+                if (BOJA == "White")
+                {
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+                }
+            }
+        }
+
+        private void dgvIzbaci_CellContentClick()
+        {
+            if (dgvIzbaci.CurrentCell.ColumnIndex.ToString() == "0")
+            {
+                DataGridViewCheckBoxCell cbZaBrisanje = (DataGridViewCheckBoxCell)dgvIzbaci.Rows[dgvIzbaci.CurrentRow.Index].Cells[0];
+
+
+                if (cbZaBrisanje.Value == null)
+                    cbZaBrisanje.Value = true;
+                else cbZaBrisanje.Value = !bool.Parse(cbZaBrisanje.Value.ToString());
+
+
+                if (bool.Parse(cbZaBrisanje.Value.ToString()))
+                {
+                    dgvIzbaci.Rows[3].Visible = false;
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.BackColor = Color.Red;
+                    brojSelektovanih++;
+                }
+                else
+                {
+                    dgvIzbaci.CurrentRow.DefaultCellStyle.BackColor = Color.White;
+                    brojSelektovanih--;
+                }
+
             }
         }
     }

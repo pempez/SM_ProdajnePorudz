@@ -134,6 +134,8 @@ namespace ProdajnePorudzbine
                 dgvSalesHeader.Columns["Iznos u Evrima"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 dgvSalesHeader.Columns["Iznos u Evrima sa PDV"].DefaultCellStyle.Format = "N2";
                 dgvSalesHeader.Columns["Iznos u Evrima sa PDV"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                dgvSalesHeader.Columns["Document Date"].DefaultCellStyle.Format = "dd.MM.yyyy";
+                dgvSalesHeader.Columns["Name"].Width = 270;
 
 
                 dgvSalesHeader_Click(null, null);
@@ -367,6 +369,8 @@ namespace ProdajnePorudzbine
 
             if (dgvSalesHeader.CurrentCell.ColumnIndex.ToString() == "0")
             {
+              
+
                 DataGridViewCheckBoxCell cbZaBrisanje = new DataGridViewCheckBoxCell();
                 cbZaBrisanje = (DataGridViewCheckBoxCell)dgvSalesHeader.Rows[dgvSalesHeader.CurrentRow.Index].Cells[0];
 
@@ -472,7 +476,8 @@ namespace ProdajnePorudzbine
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormIzbaciKupca f1 = new FormIzbaciKupca();
+
+            FormIzbaciKupca f1 = new FormIzbaciKupca(kupci);
             f1.ShowDialog();
             exclude = "";
             rtbIzbaceni.Text = "";
@@ -488,8 +493,10 @@ namespace ProdajnePorudzbine
             }
             catch
             {
-                
+
             }
-            }
+
+            btnPronadji_Click(null, null);
+        }
     }
 }

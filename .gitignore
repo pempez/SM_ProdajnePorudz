@@ -66,3 +66,6 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.ide
 *.ide-shm
+*.ide
+*.ide-shm
+*.ide-wal
