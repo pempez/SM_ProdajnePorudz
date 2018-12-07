@@ -29,7 +29,7 @@ namespace ProdajnePorudzbine
             crConnectionInfo.DatabaseName = db;
             crConnectionInfo.UserID = uid;
             crConnectionInfo.Password = pwd;
-
+            
             TableLogOnInfos crTableLogonInfos = new TableLogOnInfos();
 
             foreach (CrystalDecisions.CrystalReports.Engine.Table table in rep.Database.Tables)
@@ -44,6 +44,7 @@ namespace ProdajnePorudzbine
             crystalReportViewer1.LogOnInfo = crTableLogonInfos;
             crystalReportViewer1.ToolPanelView = CrystalDecisions.Windows.Forms.ToolPanelViewType.None;
             crystalReportViewer1.ReportSource = rep;
+           
         }
     }
 }

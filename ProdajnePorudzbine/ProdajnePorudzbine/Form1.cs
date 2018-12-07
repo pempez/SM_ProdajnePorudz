@@ -429,6 +429,7 @@ namespace ProdajnePorudzbine
             SetParameters(uslov + dodatniUslov, tbKurs.Text);
 
             Report rep = new Report(ReportDoc);
+            
             rep.ShowDialog();
 
         }
@@ -436,7 +437,7 @@ namespace ProdajnePorudzbine
         private void SetParameters(string uslov, string kurs)
         {
             ReportDoc.SetParameterValue("uslov", uslov);
-            ReportDoc.SetParameterValue("kurs", kurs.Replace(".", ","));
+            ReportDoc.SetParameterValue("kurs", kurs.Replace(",", "."));
 
         }
 
@@ -451,7 +452,7 @@ namespace ProdajnePorudzbine
             textReader.Close();
 
             ReportDoc.Load(ReportFile);
-            ReportDoc.SetDatabaseLogon(uid, pwd, server, db);
+            ReportDoc.SetDatabaseLogon(uid, pwd, server, db,true);
         }
 
         private void btnPDF_Click(object sender, EventArgs e)

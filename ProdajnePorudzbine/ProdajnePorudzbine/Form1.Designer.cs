@@ -50,6 +50,7 @@
             this.dgvSalesHeader = new System.Windows.Forms.DataGridView();
             this.dgvSalesLine = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.rtbIzbaceni = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.btnPDF = new System.Windows.Forms.Button();
@@ -68,7 +69,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.cbPeriod = new System.Windows.Forms.CheckBox();
             this.cbNalog = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -87,9 +87,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.splitContainer1);
-            this.groupBox1.Location = new System.Drawing.Point(-2, 121);
+            this.groupBox1.Location = new System.Drawing.Point(1, 121);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1184, 628);
+            this.groupBox1.Size = new System.Drawing.Size(1112, 564);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
@@ -113,8 +113,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.dgvSalesLine);
-            this.splitContainer1.Size = new System.Drawing.Size(1178, 609);
-            this.splitContainer1.SplitterDistance = 383;
+            this.splitContainer1.Size = new System.Drawing.Size(1106, 545);
+            this.splitContainer1.SplitterDistance = 302;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox4
@@ -126,7 +126,7 @@
             this.groupBox4.Controls.Add(this.lblD);
             this.groupBox4.Controls.Add(this.lblS);
             this.groupBox4.Controls.Add(this.lblU);
-            this.groupBox4.Location = new System.Drawing.Point(243, 312);
+            this.groupBox4.Location = new System.Drawing.Point(243, 232);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(257, 66);
             this.groupBox4.TabIndex = 11;
@@ -196,7 +196,7 @@
             this.groupBox3.Controls.Add(this.lblDomaciPDV);
             this.groupBox3.Controls.Add(this.lblPDV);
             this.groupBox3.Controls.Add(this.lblStraniPDV);
-            this.groupBox3.Location = new System.Drawing.Point(520, 312);
+            this.groupBox3.Location = new System.Drawing.Point(520, 232);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(331, 66);
             this.groupBox3.TabIndex = 10;
@@ -255,7 +255,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(189, 358);
+            this.label4.Location = new System.Drawing.Point(189, 277);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 3;
@@ -265,7 +265,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(159, 345);
+            this.label3.Location = new System.Drawing.Point(159, 264);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(78, 13);
             this.label3.TabIndex = 2;
@@ -275,7 +275,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(150, 332);
+            this.label2.Location = new System.Drawing.Point(150, 251);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 13);
             this.label2.TabIndex = 1;
@@ -292,7 +292,7 @@
             this.dgvSalesHeader.Location = new System.Drawing.Point(11, 22);
             this.dgvSalesHeader.Name = "dgvSalesHeader";
             this.dgvSalesHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSalesHeader.Size = new System.Drawing.Size(1158, 284);
+            this.dgvSalesHeader.Size = new System.Drawing.Size(1086, 203);
             this.dgvSalesHeader.TabIndex = 0;
             this.dgvSalesHeader.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvSalesHeader_CellContentClick);
             this.dgvSalesHeader.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvSalesHeader_CellMouseClick);
@@ -314,7 +314,7 @@
             this.dgvSalesLine.Name = "dgvSalesLine";
             this.dgvSalesLine.ReadOnly = true;
             this.dgvSalesLine.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvSalesLine.Size = new System.Drawing.Size(1158, 194);
+            this.dgvSalesLine.Size = new System.Drawing.Size(1086, 209);
             this.dgvSalesLine.TabIndex = 1;
             this.dgvSalesLine.MouseEnter += new System.EventHandler(this.dgvSalesLine_MouseEnter);
             // 
@@ -343,9 +343,20 @@
             this.groupBox2.Controls.Add(this.cbNalog);
             this.groupBox2.Location = new System.Drawing.Point(1, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1183, 103);
+            this.groupBox2.Size = new System.Drawing.Size(1110, 103);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(962, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(28, 13);
+            this.label6.TabIndex = 50;
+            this.label6.Text = "Bez:";
             // 
             // rtbIzbaceni
             // 
@@ -353,7 +364,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbIzbaceni.Location = new System.Drawing.Point(996, 12);
             this.rtbIzbaceni.Name = "rtbIzbaceni";
-            this.rtbIzbaceni.Size = new System.Drawing.Size(175, 78);
+            this.rtbIzbaceni.Size = new System.Drawing.Size(102, 78);
             this.rtbIzbaceni.TabIndex = 49;
             this.rtbIzbaceni.Text = "";
             // 
@@ -370,7 +381,7 @@
             // btnPDF
             // 
             this.btnPDF.Enabled = false;
-            this.btnPDF.Location = new System.Drawing.Point(902, 65);
+            this.btnPDF.Location = new System.Drawing.Point(902, 64);
             this.btnPDF.Name = "btnPDF";
             this.btnPDF.Size = new System.Drawing.Size(75, 23);
             this.btnPDF.TabIndex = 47;
@@ -381,7 +392,7 @@
             // btnStampa
             // 
             this.btnStampa.Enabled = false;
-            this.btnStampa.Location = new System.Drawing.Point(821, 64);
+            this.btnStampa.Location = new System.Drawing.Point(821, 65);
             this.btnStampa.Name = "btnStampa";
             this.btnStampa.Size = new System.Drawing.Size(75, 23);
             this.btnStampa.TabIndex = 46;
@@ -524,22 +535,11 @@
             this.cbNalog.Size = new System.Drawing.Size(171, 21);
             this.cbNalog.TabIndex = 32;
             // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(962, 12);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(28, 13);
-            this.label6.TabIndex = 50;
-            this.label6.Text = "Bez:";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.ClientSize = new System.Drawing.Size(1112, 687);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "Form1";
